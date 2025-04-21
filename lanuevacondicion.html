@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/proyectoCarCenter.css">
+    <script src="./style/chatbot.js" defer></script>
+</head>
+<body>
+    <details>
+        <summary>La nueva condición</summary>
+        <p>La nueva condición es que el usuario debe aceptar los términos y condiciones antes de poder iniciar sesión.</p>
+    </details>
+
+    <dialog>
+        
+        <h1>Términos y condiciones</h1>
+        <p>Al aceptar los términos y condiciones, el usuario se compromete a no compartir su contraseña con nadie.</p>
+        <button onclick="document.querySelector('dialog').close()">Aceptar</button>
+    </dialog>
+    <button onclick="document.querySelector('dialog').showModal()">Ver términos y condiciones</button>
+    <form id="loginForm" action="./Segundaplantilla.html" onsubmit="return validarLogin()">
+        <input type="text" id="usuario" placeholder="Usuario" required>
+        <input type="password" id="contraseña" placeholder="Contraseña" required>
+        <input type="password" id="confirmarContraseña" placeholder="Confirmar Contraseña" required>
+        <input type="checkbox" id="aceptarTerminos" required>
+        <label for="aceptarTerminos">Acepto los términos y condiciones</label>
+        <button type="submit" class="neumorphic-button">Iniciar Sesión</button>
+        <button type="submit" class="neumorphic-button">Continuar</button>
+        <button onclick="history.back()" class="neumorphic-button">Regresar</button>
+    </form>
+    <meter value="0.5"></meter>
+    <script>
+        function validarLogin() {
+            const contraseña = document.getElementById('contraseña').value;
+            const confirmarContraseña = document.getElementById('confirmarContraseña').value;
+            if (contraseña !== confirmarContraseña) {
+                alert("Las contraseñas no coinciden.");
+                return false;
+            }
+            return true;
+        }
+    </script>
+
+    <!-- Botón de WhatsApp -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <a href="https://wa.me/573113275086?text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center" 
+       class="whatsapp-button" 
+       target="_blank"
+       onclick="window.open((navigator.userAgent.match(/Android|iPhone|iPad|iPod|Mobile/i)) ? 'whatsapp://send?phone=573113275086&text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center' : this.href); return false;">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+    </a>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <h3>Car Center Asistente</h3>
+            <button class="minimize-chat">−</button>
+        </div>
+        <div class="chat-messages">
+            <div class="message bot">
+                ¡Hola! ¿En qué puedo ayudarte con los servicios de Car Center?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userMessage" placeholder="Escribe tu mensaje...">
+            <button onclick="enviarMensaje()" class="send-button">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</body>
+</html>

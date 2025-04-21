@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
+    <title>Tercera plantilla</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+<body>
+    <div class="container">
+        <!-- Cabecera -->
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+        </div>
+        <!-- Contenido -->
+        <div class="contenido">
+            <form action="./ServiciosDisponibles.html" method="GET">
+                <label for="cars">Seleccione una tienda:</label><br>
+                <input type="hidden" id="selectedStore" name="selectedStore" required>
+                <select name="cars" id="cars" required>
+                    <option value="Tiendas" disabled selected>Elija una opción</option>
+                    <option value="tienda1">Calle 80</option>
+                    <option value="tienda2">Cedritos</option>
+                    <option value="tienda3">Dorado</option>
+                    <option value="tienda4">Mall Plaza</option>
+                    <option value="tienda5">Tintal</option>
+                </select>
+                <!-- Botón Continuar -->
+                 <button type="submit" class="neumorphic-button">Continuar</button>
+                                 <!-- Botón Regresar -->
+                                 <button onclick="history.back()" class="neumorphic-button">Regresar</button>
+
+
+            </form>
+                            
+
+
+            </form>
+        </div>
+        <div class="container-img">
+            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        </div>
+    </div>
+
+        <script>
+            function validarLogin() {
+                // Aquí puedes agregar validaciones adicionales si es necesario
+                const contraseña = document.getElementById('contraseña').value;
+                const confirmarContraseña = document.getElementById('confirmarContraseña').value;
+    
+                if (contraseña !== confirmarContraseña) {
+                    alert("Las contraseñas no coinciden.");
+                    return false; // Evita que el formulario se envíe
+                }
+    
+                return true; // Permite que el formulario se envíe
+            }
+        </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</body>
+</html>

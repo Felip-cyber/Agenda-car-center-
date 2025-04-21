@@ -1,0 +1,236 @@
+// Copiando todo el contenido de CuartaPlantilla.html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
+    <!-- Incluir Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <title>Reserva de Servicio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+<body>
+    <div class="container">
+        <!-- Cabecera -->
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <form action="./QuintaPlantillaRegistrodel Vehiculo.html">
+
+        </div>
+        <!-- Contenido -->
+        <div class="contenido">
+            <form id="reservaForm">
+                <!-- Campo de fecha y hora con Flatpickr -->
+                <label for="fechaHora">Fecha y hora de la reserva:</label>
+                <input type="text" id="fechaHora" placeholder="Seleccione fecha y hora" required>
+
+                <!-- Información sobre servicios -->
+                <select name="tipoLavado" id="tipoLavado" required onchange="actualizarTiempoServicio()">
+                    <option value="" disabled selected>Seleccione un tipo de lavado</option>
+                    <option value="sencillo">Lavado Sencillo (30 minutos)</option>
+                    <option value="basico">Lavado Básico (45 minutos)</option>
+                    <option value="completo">Lavado Completo (60 minutos)</option>
+                    <option value="premium">Lavado Premium (90 minutos)</option>
+                    <option value="seco">Lavado Seco (45 minutos)</option>
+                    <option value="medio">Lavado Medio (60 minutos)</option>
+                    <option value="grande">Lavado Grande (90 minutos)</option>
+                    <option value="integral">Lavado Integral (120 minutos)</option>
+                    <option value="premiumSeco">Lavado Premium Seco (45 minutos)</option>
+                    <option value="premiumMedio">Lavado Premium Medio (60 minutos)</option>
+                    <option value="premiumGrande">Lavado Premium Grande (90 minutos)</option>
+                    <option value="premiumIntegral">Lavado Premium Integral (120 minutos)</option>
+                    <option value="premiumCompleto">Lavado Premium Completo (120 minutos)</option>
+                </select>
+
+                <label for="tiempoServicio">Tiempo estimado:</label>
+                <input type="text" id="tiempoServicio" readonly>
+
+                <!-- Botón Continuar -->
+                <button type="submit" class="neumorphic-button">Continuar</button>
+
+                <div >  
+                </div>
+            </form>
+
+            <div id="disponibilidadStatus" class="disponibilidad-status"></div>
+
+            <!-- Botón Regresar -->
+            <button onclick="history.back()" class="neumorphic-button">Regresar</button>
+        </div>
+        <div class="container-img">
+            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        </div>
+    </div>
+
+    <!-- Incluir Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Configuración de Flatpickr para el campo de fecha y hora
+        flatpickr("#fechaHora", {
+            enableTime: true, // Habilita la selección de hora
+            dateFormat: "Y-m-d H:i", // Formato de fecha y hora
+            minDate: "today", // Fecha mínima seleccionable (hoy)
+            minTime: "08:00", // Hora mínima (8:00 AM)
+            maxTime: "20:00", // Hora máxima (8:00 PM)
+            locale: "es", // Idioma español
+            time_24hr: true, // Usar formato de 24 horas
+
+            onChange: function(selectedDates, dateStr) {
+                // Verificar disponibilidad cuando se selecciona una fecha y hora
+                verificarDisponibilidad();
+
+            }
+        });
+
+        const reservasExistentes = [
+            { fecha: "2023-10-24", hora: "09:00", tipoLavado: "sencillo" },
+            { fecha: "2023-10-24", hora: "10:00", tipoLavado: "basico" },
+            { fecha: "2023-10-25", hora: "10:00", tipoLavado: "basico" },
+            { fecha: "2023-10-25", hora: "14:00", tipoLavado: "completo" },
+            { fecha: "2023-10-26", hora: "09:00", tipoLavado: "premium" }
+        ];
+
+        function actualizarTiempoServicio() {
+            const fechaHora = document.getElementById('fechaHora').value;
+            const btnContinuar = document.querySelector('button[type="submit"]');
+
+            const tipoLavado = document.getElementById('tipoLavado').value;
+            const tiempoServicioInput = document.getElementById('tiempoServicio');
+
+            switch (tipoLavado) {
+                case 'sencillo':
+                    tiempoServicioInput.value = '30 minutos';
+                    break;
+                case 'basico':
+
+                case 'seco':
+                case 'premiumSeco':
+                    tiempoServicioInput.value = '45 minutos';
+                    break;
+                case 'medio':
+                case 'premiumMedio':
+                    tiempoServicioInput.value = '60 minutos';
+                    break;
+                case 'grande':
+                case 'premium':
+                    tiempoServicioInput.value = '90 minutos';
+                    break;
+                case 'integral':
+                case 'premiumCompleto':
+                case 'premiumIntegral':
+                    tiempoServicioInput.value = '120 minutos';
+                    break;
+                default:
+                    tiempoServicioInput.value = '0 minutos';
+                    break;
+
+            }
+
+            verificarDisponibilidad();
+        }
+
+        function verificarDisponibilidad() {
+            const fechaHora = document.getElementById('fechaHora').value;
+            const tipoLavado = document.getElementById('tipoLavado').value;
+            const btnContinuar = document.querySelector('button[type="submit"]');
+            const statusDiv = document.getElementById('disponibilidadStatus');
+
+            if (fechaHora && tipoLavado) {
+                const [fecha, hora] = fechaHora.split(" ");
+                const reservaOcupada = reservasExistentes.some(reserva => 
+                    reserva.fecha === fecha && 
+                    reserva.hora === hora && 
+                    reserva.tipoLavado === tipoLavado
+                );
+
+                if (reservaOcupada) {
+                    // Buscar horarios alternativos
+                    const horariosAlternativos = encontrarHorariosAlternativos(fecha, tipoLavado);
+                    
+                    statusDiv.className = 'disponibilidad-status no-disponible';
+                    statusDiv.innerHTML = `
+                        <strong>Horario no disponible</strong><br>
+                        ${horariosAlternativos.length > 0 ? 
+                            `<div class="horario-sugerido">
+                                Horarios sugeridos para el mismo día:<br>
+                                ${horariosAlternativos.join('<br>')}
+                            </div>` : 
+                            'No hay horarios alternativos disponibles para este día'}
+                    `;
+                    btnContinuar.disabled = true;
+                } else {
+                    statusDiv.className = 'disponibilidad-status disponible';
+                    statusDiv.innerHTML = '<strong>¡Horario disponible!</strong> Puede continuar con su reserva.';
+                    btnContinuar.disabled = false;
+                }
+            } else {
+                statusDiv.style.display = 'none';
+                btnContinuar.disabled = true;
+            }
+        }
+
+        function encontrarHorariosAlternativos(fecha, tipoLavado) {
+            const horasDisponibles = ['08:00', '09:00', '10:00', '11:00', '12:00', 
+                                    '13:00', '14:00', '15:00', '16:00', '17:00'];
+            
+            return horasDisponibles.filter(hora => 
+                !reservasExistentes.some(reserva => 
+                    reserva.fecha === fecha && 
+                    reserva.hora === hora && 
+                    reserva.tipoLavado === tipoLavado
+                )
+            ).slice(0, 3); // Mostrar solo los 3 primeros horarios disponibles
+        }
+
+        // Actualizar eventos
+        document.getElementById('fechaHora').addEventListener('change', verificarDisponibilidad);
+        document.getElementById('tipoLavado').addEventListener('change', verificarDisponibilidad);
+
+        document.getElementById('reservaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fechaHora = document.getElementById('fechaHora').value;
+            const tipoLavado = document.getElementById('tipoLavado').value;
+            alert(`Reserva realizada para el ${fechaHora}. Tipo de lavado: ${tipoLavado}`);
+            
+            document.getElementById('tipoLavado').addEventListener('change', verificarDisponibilidad);
+        });
+        
+    </script>
+    <style>
+        .disponibilidad-status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .disponible {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        .no-disponible {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        .horario-sugerido {
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <a href="https://wa.me/573113275086?text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center" 
+       class="whatsapp-button" 
+       target="_blank"
+       onclick="window.open((navigator.userAgent.match(/Android|iPhone|iPad|iPod|Mobile/i)) ? 'whatsapp://send?phone=573113275086&text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center' : this.href); return false;">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+    </a>
+</body>
+</html>

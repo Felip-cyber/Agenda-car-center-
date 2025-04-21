@@ -1,0 +1,149 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #161616;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgb(242, 240, 246);
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.cabecera {
+    background-color: #ebecf3;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.cabecera img {
+    width: 250px;
+    height: 40px;
+    margin-left: 15px;
+}
+
+.contenido {
+    padding: 20px;
+    text-align: center;
+}
+
+.contenido input[type="text"],
+.contenido input[type="password"] {
+    width: 85%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #161616;
+    border-radius: 5px;
+    background-color: #eee;
+    text-align: center;
+}
+
+.contenido button {
+    background-color:#ff0000;
+    color: rgb(231, 221, 221);
+    padding: 8px 15px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 85%;
+    margin: 15px 0;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0c0c0c;
+}
+
+.contenido a {
+    display: block;
+    color: #333;
+    text-decoration: none;
+    margin: 5px 0;
+    font-size: 10px; /* Tamaño de fuente más pequeño */
+}
+
+.contenido a:hover {
+    text-decoration: underline;
+}
+
+.container .container-img {
+    background-color: white;
+}
+
+.neumorphic-button {
+    padding: 15px 30px;
+    font-size: 16px;
+    color: #0c0658;
+    background: #e7e2e7;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 5px 5px 10px #cfcbcb, -5px -5px 10px #d8cfcf;
+    margin: 10px;
+}
+
+.neumorphic-button:hover {
+    background: #080808;
+    box-shadow: 5px 5px 15px #b0acac, -5px -5px 15px #f0ebeb;
+}
+
+.neumorphic-button:active{
+    box-shadow: inset 5px 5px 10px #053513, inset -5px -5px 10px #ffffff;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #191a1a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.whatsapp-btn {
+    position: fixed;
+    bottom: 90px;
+    right: 40%;
+    background: #25d366;
+    border-radius: 50%;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    border: none;
+    cursor: pointer;
+}
+
+.whatsapp-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.whatsapp-btn i {
+    color: white;
+    font-size: 24px;
+}

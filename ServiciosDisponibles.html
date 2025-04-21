@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <title>Servicios Disponibles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .disponibilidad-status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .disponible {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+        .no-disponible {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+        .horario-sugerido {
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .hora-grupo {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+
+        .fecha-hora-input {
+            display: block;
+            margin: 10px auto;
+            padding: 12px;
+            width: 100%;
+            max-width: 280px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #fff;
+        }
+
+        .fecha-hora-input:focus {
+            border-color: #ff0000;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+        </div>
+
+        <div class="contenido">
+            <form action="./QuintaPlantillaRegistrodel Vehiculo.html" method="get" id="serviciosForm">
+                <h2>Seleccione el Servicio</h2>
+                
+                <select name="tipoLavado" id="tipoLavado" required class="service-select" onchange="actualizarDetallesServicio()">
+                    <option value="" disabled selected>Seleccione un tipo de lavado</option>
+                    <option value="sencillo" 
+                            data-tiempo="30" 
+                            data-precio="25000"
+                            data-detalles="• Lavado exterior básico
+                                            • Limpieza de llantas
+
+                                          • Aspirado interior simple
+                                          • Limpieza de vidrios
+                                          • Secado manual">
+                        Lavado Sencillo (30 minutos)
+                    </option>
+                    <option value="basico" 
+                            data-tiempo="45" 
+                            data-precio="30000"
+                            data-detalles="• Lavado exterior completo
+                                          • Aspirado interior detallado
+                                          • Limpieza de vidrios interior/exterior
+                                          • Limpieza de llantas
+                                          • Aplicación de silicona">
+                        Lavado Básico (45 minutos)
+                    </option>
+                    <option value="completo" 
+
+                            data-tiempo="60" 
+                            data-precio="50000"
+                            data-detalles="• Todo lo del lavado básico
+                                          • Encerado completo
+                                          • Limpieza de tapicería
+                                          • Limpieza de tablero
+                                          • Aromatización">
+                        Lavado Completo (60 minutos)
+                    </option>
+                    <option value="premium" 
+                            data-tiempo="90" 
+                            data-precio="70000"
+                            data-detalles="• Todo lo del lavado completo
+                                          • Pulido de carrocería
+                                          • Desmanchado de tapicería
+                                          • Limpieza de motor
+                                          • Tratamiento de cueros">
+                        Lavado Premium (90 minutos)
+                    </option>
+                    <option value="seco" 
+                            data-tiempo="45" 
+                            data-precio="40000"
+                            data-detalles="• Limpieza en seco exterior
+                                          • Limpieza en seco interior
+                                          • Tratamiento de superficies
+                                          • Desinfección general">
+                        Lavado Seco (45 minutos)
+                    </option>
+                    <option value="medio" 
+                            data-tiempo="60" 
+                            data-precio="45000"
+                            data-detalles="• Lavado exterior mediano
+                                          • Limpieza interior media
+                                          • Aspirado completo
+                                          • Limpieza de alfombras">
+                        Lavado Medio (60 minutos)
+                    </option>
+                    <option value="grande" 
+                            data-tiempo="90" 
+                            data-precio="60000"
+                            data-detalles="• Lavado exterior profundo
+                                          • Limpieza interior profunda
+                                          • Lavado de motor
+                                          • Tratamiento de pintura">
+                        Lavado Grande (90 minutos)
+                    </option>
+                    <option value="integral" 
+                            data-tiempo="120" 
+                            data-precio="80000"
+                            data-detalles="• Servicio completo exterior
+                                          • Servicio completo interior
+                                          • Tratamiento cerámico
+                                          • Protección UV">
+                        Lavado Integral (120 minutos)
+                    </option>
+                    <option value="premiumSeco" 
+                            data-tiempo="45" 
+                            data-precio="55000"
+                            data-detalles="• Lavado seco premium
+                                          • Tratamiento de cuero
+                                          • Protección antimanchas
+                                          • Sanitización completa">
+                        Lavado Premium Seco (45 minutos)
+                    </option>
+                    <option value="premiumMedio" 
+                            data-tiempo="60" 
+                            data-precio="65000"
+                            data-detalles="• Lavado premium medio
+                                          • Encerado premium
+                                          • Limpieza profunda de interiores
+                                          • Tratamiento de olores">
+                        Lavado Premium Medio (60 minutos)
+                    </option>
+                    <option value="premiumGrande" 
+                            data-tiempo="90" 
+                            data-precio="75000"
+                            data-detalles="• Lavado premium completo
+                                          • Pulido profesional
+                                          • Restauración de pintura
+                                          • Protección cerámica">
+                        Lavado Premium Grande (90 minutos)
+                    </option>
+                    <option value="premiumIntegral" 
+                            data-tiempo="120" 
+                            data-precio="90000"
+                            data-detalles="• Servicio integral premium
+                                          • Detallado completo
+                                          • Restauración total
+                                          • Protección premium">
+                        Lavado Premium Integral (120 minutos)
+                    </option>
+                    <option value="premiumCompleto" 
+                            data-tiempo="120" 
+                            data-precio="100000"
+                            data-detalles="• Todo incluido premium
+                                          • Detallado profesional
+                                          • Restauración premium
+                                          • Garantía de servicio">
+                        Lavado Premium Completo (120 minutos)
+                    </option>
+                </select>
+
+                <div id="detallesServicio" style="display: none;">
+                    <div class="servicio-detalles">
+
+                        <h3>Incluye:</h3>
+                        <div id="especificaciones"></div>
+                    </div>
+                    <div class="tiempo-estimado">
+                        Tiempo estimado: <span id="tiempoEstimado">0</span> minutos
+                    </div>
+                    <div class="precio-servicio">
+                        Precio: $<span id="precioServicio">0</span>
+                    </div>
+                    <div id="disponibilidadStatus" class="disponibilidad-status"></div>
+                </div>
+
+                <div class="form-group hora-grupo">
+                    <label for="fechaHora">Seleccionar fecha y hora</label>
+                    <input type="datetime-local" 
+                           id="fechaHora" 
+                           name="fechaHora" 
+                           required 
+                           class="fecha-hora-input"
+                           min="">
+                    <div class="horarios-disponibles" id="horariosDisponibles"></div>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" class="neumorphic-button">Continuar</button>
+                    <button type="button" onclick="window.location.href='./Terceraplantilla.html'" class="neumorphic-button">Regresar</button>
+                </div>
+            </form>
+            <script>
+                function actualizarDetallesServicio() {
+                    const select = document.getElementById('tipoLavado');
+                    const option = select.options[select.selectedIndex];
+                    const detalles = document.getElementById('detallesServicio');
+                    
+                    if (option.value) {
+                        document.getElementById('tiempoEstimado').textContent = option.dataset.tiempo;
+                        document.getElementById('precioServicio').textContent = option.dataset.precio;
+                        document.getElementById('especificaciones').textContent = option.dataset.detalles;
+                        detalles.style.display = 'block';
+                    } else {
+                        detalles.style.display = 'none';
+                    }
+                }
+
+                document.getElementById('serviciosForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const servicioSeleccionado = {
+                        nombre: document.querySelector('#tipoLavado option:checked').textContent,
+                        precio: document.querySelector('#tipoLavado option:checked').dataset.precio,
+                        tiempo: document.querySelector('#tipoLavado option:checked').dataset.tiempo,
+                        hora: document.getElementById('fechaHora').value
+                    };
+
+                    localStorage.setItem('servicioSeleccionado', JSON.stringify(servicioSeleccionado));
+                    this.submit();
+                });
+
+                // Datos de ejemplo de reservas existentes
+                const reservasExistentes = [
+                    { fecha: "2024-01-24", hora: "09:00", tipoLavado: "sencillo" },
+                    { fecha: "2024-01-24", hora: "10:00", tipoLavado: "basico" },
+                    { fecha: "2024-01-25", hora: "14:00", tipoLavado: "completo" }
+                ];
+
+                function verificarDisponibilidad() {
+                    const fechaHora = document.getElementById('fechaHora').value;
+                    const tipoLavado = document.getElementById('tipoLavado').value;
+                    const btnContinuar = document.querySelector('button[type="submit"]');
+                    const statusDiv = document.getElementById('disponibilidadStatus');
+
+                    if (fechaHora && tipoLavado) {
+                        const [fecha, hora] = fechaHora.split(" ");
+                        const reservaOcupada = reservasExistentes.some(reserva => 
+                            reserva.fecha === fecha && 
+                            reserva.hora === hora && 
+                            reserva.tipoLavado === tipoLavado
+                        );
+
+                        if (reservaOcupada) {
+                            const horariosAlternativos = encontrarHorariosAlternativos(fecha, tipoLavado);
+                            
+                            statusDiv.className = 'disponibilidad-status no-disponible';
+                            statusDiv.innerHTML = `
+                                <strong>Horario no disponible</strong><br>
+                                ${horariosAlternativos.length > 0 ? 
+                                    `<div class="horario-sugerido">
+                                        Horarios sugeridos para el mismo día:<br>
+                                        ${horariosAlternativos.join('<br>')}
+                                    </div>` : 
+                                    'No hay horarios alternativos disponibles para este día'}
+                            `;
+                            btnContinuar.disabled = true;
+                        } else {
+                            statusDiv.className = 'disponibilidad-status disponible';
+                            statusDiv.innerHTML = '<strong>¡Horario disponible!</strong> Puede continuar con su reserva.';
+                            btnContinuar.disabled = false;
+                        }
+                    }
+                }
+
+                function encontrarHorariosAlternativos(fecha, tipoLavado) {
+                    const horasDisponibles = ['08:00', '09:00', '10:00', '11:00', '12:00', 
+                                            '13:00', '14:00', '15:00', '16:00', '17:00'];
+                    
+                    return horasDisponibles.filter(hora => 
+                        !reservasExistentes.some(reserva => 
+                            reserva.fecha === fecha && 
+                            reserva.hora === hora && 
+                            reserva.tipoLavado === tipoLavado
+                        )
+                    ).slice(0, 3);
+                }
+
+                // Agregar eventos de verificación
+                document.getElementById('fechaHora').addEventListener('change', verificarDisponibilidad);
+                document.getElementById('tipoLavado').addEventListener('change', verificarDisponibilidad);
+            </script>
+        </div>
+        <div class="container-img">
+            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        </div>
+    </div>
+    <a href="https://wa.me/573113275086?text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center" 
+       class="whatsapp-button" 
+       target="_blank"
+       onclick="window.open((navigator.userAgent.match(/Android|iPhone|iPad|iPod|Mobile/i)) ? 'whatsapp://send?phone=573113275086&text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center' : this.href); return false;">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+    </a>
+</body>
+</html>

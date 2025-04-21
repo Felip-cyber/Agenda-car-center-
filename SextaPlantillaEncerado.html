@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
+    <title>Sexta Plantilla Servicios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style></style>
+
+
+    <title>Sexta plantilla servicios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #191a1a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            
+        }
+
+        .container {
+            background-color: rgb(242, 240, 246);
+            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 600px; /* Aumentamos la altura del contenedor */
+        }
+
+        .cabecera {
+            background-color: #ebecf3;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cabecera img {
+            width: 250px;
+            height: auto;
+            margin-left: 10px;
+            flex-shrink: 0;
+    
+        }
+
+        .contenido {
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contenido input[type="text"],
+        .contenido input[type="password"] {
+            width: 85%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #eee;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .contenido button {
+            background-color: #ff0000;
+            color: white;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            width: 85%;
+            margin: 15px 0;
+            font-size: 16px;
+        }
+        .footer{
+            margin-top: auto;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            overflow: hidden;
+        }
+        .footer img{
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 0 0 10px 10px;
+        }
+
+        .contenido a {
+            display: block;
+            color: #333;
+            text-decoration: none;
+            margin: 5px 0;
+            font-size: 20px; /* Tamaño de fuente más pequeño */
+        }
+
+        .caracteristicas {
+            background-color: #fff;
+            
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            width: 85%;
+            text-align: left;
+        }
+
+        .caracteristicas h3 {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+
+        .caracteristicas ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .caracteristicas li {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #333;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .caracteristicas li:before {
+            content: "✓";
+            color: #ff0000;
+            position: absolute;
+            left: 0;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabecera -->
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png"height="300px" width="300px" alt="300px">
+        </div>
+        <!-- Contenido -->
+        <div class="contenido">
+            <div class="caracteristicas">
+
+                <h3>Lavado Encerado</h3>
+                <ul>
+                    <li>Lavado exterior completo</li>
+                    <li>Encerado profesional</li>
+                    <li>Limpieza de rines</li>
+                    <li>Brillado de carrocería</li>
+                    <li>Aspirada</li>
+                    <li>Duración: 2 horas</li>
+                    
+                </ul>
+            </div>
+            <button onclick="window.location.href='./SeptimaPlantillaPolichado.html'" class="neumorphic-button" style="background-color: #ff0000; color: white; padding: 12px 15px; border: none; border-radius: 20px; cursor: pointer; width: 85%; margin: 15px 0; font-size: 16px;">Continuar</button>
+
+            <button onclick="window.location.href='./QuintaPlantilla.html'" class="neumorphic-button" style="background-color: #ff0000; color: white; padding: 12px 15px; border: none; border-radius: 20px; cursor: pointer; width: 85%; margin: 15px 0; font-size: 16px;">Regresar</button>
+                <form action="./SextaPlantillaEncerado.html">
+                    <input type="hidden" id="servicio" name="servicio" value="Lavado Encerado">
+                    
+
+                    
+                </form>
+            </div>
+            <div class="footer">
+            <img src="Imagenes/lavado encerado.jpg" alt="lavado">
+                </div>
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <a href="https://wa.me/573113275086?text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center" 
+           class="whatsapp-button" 
+           target="_blank"
+           onclick="window.open((navigator.userAgent.match(/Android|iPhone|iPad|iPod|Mobile/i)) ? 'whatsapp://send?phone=573113275086&text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center' : this.href); return false;">
+            <i class="fab fa-whatsapp whatsapp-icon"></i>
+        </a>
+    </body>
+    </html>
+
+
+
+
+
+
+
+
+
+
+

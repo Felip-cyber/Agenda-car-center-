@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <title>Historial de Servicios</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+        </div>
+
+        <div class="contenido">
+            <h2>Historial de Servicios</h2>
+            <div class="busqueda-placa">
+                <input type="text" id="buscarPlaca" placeholder="Ingrese la placa del vehículo" pattern="[A-Za-z]{3}[0-9]{3}">
+                <button onclick="buscarHistorial()" class="neumorphic-button">Buscar</button>
+            </div>
+
+            <div id="historialResultados" class="historial-container">
+                <!-- Aquí se mostrarán los resultados -->
+            </div>
+
+            <button onclick="window.location.href='ProyectoCarCenter.html'" class="neumorphic-button">Regresar</button>
+        </div>
+
+        <div class="footer">
+            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        </div>
+    </div>
+
+    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        function buscarHistorial() {
+            const placa = document.getElementById('buscarPlaca').value.toUpperCase();
+            const historial = obtenerHistorialLocal(placa);
+            mostrarHistorial(historial);
+        }
+
+        function obtenerHistorialLocal(placa) {
+            const historialKey = `historial_${placa}`;
+            const historial = JSON.parse(localStorage.getItem(historialKey) || '[]');
+            return historial;
+        }
+
+        function mostrarHistorial(historial) {
+            const contenedor = document.getElementById('historialResultados');
+            contenedor.innerHTML = '';
+
+            if (historial.length === 0) {
+                contenedor.innerHTML = '<p>No se encontraron servicios para esta placa.</p>';
+                return;
+            }
+
+            const tabla = document.createElement('table');
+            tabla.innerHTML = `
+                <tr>
+                    <th>Fecha</th>
+                    <th>Servicio</th>
+                    <th>Precio</th>
+                </tr>
+            `;
+
+            historial.forEach(servicio => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${new Date(servicio.fecha).toLocaleDateString()}</td>
+                    <td>${servicio.nombre}</td>
+                    <td>$${servicio.precio}</td>
+                `;
+                tabla.appendChild(fila);
+            });
+
+            contenedor.appendChild(tabla);
+        }
+
+        // Convertir placa a mayúsculas mientras se escribe
+        document.getElementById('buscarPlaca').addEventListener('input', function(e) {
+            this.value = this.value.toUpperCase();
+        });
+    </script>
+</body>
+</html>

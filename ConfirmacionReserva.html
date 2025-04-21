@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Confirmación de Registro</title>
+</head>
+<body>
+    <div class="container">
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+        </div>
+
+        <div class="contenido">
+            <div class="confirmation-box">
+                <h2><i class="fas fa-check-circle"></i> ¡Registro Exitoso!</h2>
+                
+                <div class="confirmation-details" id="detallesRegistro"></div>
+                
+                <p>Su reserva ha sido confirmada y el servicio ha sido registrado correctamente.</p>
+                <p>Recibirá un mensaje de WhatsApp con los detalles de su reserva.</p>
+                <div class="button-container">
+                    <button onclick="window.location.href='MediosDePago.html'" class="neumorphic-button">Continuar al Pago</button>
+                    <button onclick="window.location.href='QuintaPlantillaRegistrodel Vehiculo.html'" class="neumorphic-button">Regresar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        </div>
+    </div>
+
+    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        function guardarEnHistorial(vehiculo, servicio) {
+            const historialKey = `historial_${vehiculo.placa}`;
+            const historialActual = JSON.parse(localStorage.getItem(historialKey) || '[]');
+            
+            historialActual.push({
+                fecha: new Date().toISOString(),
+                nombre: servicio.nombre,
+                precio: servicio.precio
+            });
+
+            localStorage.setItem(historialKey, JSON.stringify(historialActual));
+        }
+
+        window.onload = function() {
+            const vehiculo = JSON.parse(localStorage.getItem('vehiculoActual'));
+            const servicio = JSON.parse(localStorage.getItem('servicioSeleccionado'));
+            if (vehiculo && servicio) {
+                mostrarDetalles(vehiculo);
+                guardarEnHistorial(vehiculo, servicio);
+            }
+        };
+
+        function mostrarDetalles(vehiculo) {
+            const detalles = document.getElementById('detallesRegistro');
+            detalles.innerHTML = `
+                <h3>Detalles del Vehículo:</h3>
+                <p><strong>Placa:</strong> ${vehiculo.placa}</p>
+                <p><strong>Marca:</strong> ${vehiculo.marca}</p>
+                <p><strong>Tipo:</strong> ${vehiculo.tipo}</p>
+                <p><strong>Año:</strong> ${vehiculo.año}</p>
+                <p><strong>WhatsApp:</strong> ${vehiculo.telefono}</p>
+                <p><strong>Fecha de Registro:</strong> ${new Date(vehiculo.fechaRegistro).toLocaleDateString()}</p>
+            `;
+        }
+
+        function enviarConfirmacionWhatsApp() {
+            const vehiculo = JSON.parse(localStorage.getItem('vehiculoActual'));
+            const servicio = JSON.parse(localStorage.getItem('servicioSeleccionado'));
+            
+            if (!vehiculo || !servicio) {
+                alert('Error: No se encontraron los datos del servicio');
+                return;
+            }
+
+            // Validar que exista el número de teléfono
+            if (!vehiculo.telefono) {
+                alert('Error: No se encontró el número de WhatsApp del cliente');
+                return;
+            }
+
+            // Formatear el número de teléfono (eliminar espacios y caracteres especiales)
+            let numeroCliente = vehiculo.telefono.replace(/[^\d]/g, '');
+            
+            // Asegurar que tenga el prefijo de Colombia
+            numeroCliente = numeroCliente.startsWith('57') ? numeroCliente : '57' + numeroCliente;
+
+            const mensaje = 
+                '🚗 *CONFIRMACION DE SERVICIO CAR CENTER*\n\n' +
+                '📋 *DATOS DEL VEHICULO*\n' +
+                '• Placa: ' + vehiculo.placa + '\n' +
+                '• Marca: ' + vehiculo.marca + '\n' +
+                '• Tipo: ' + vehiculo.tipo + '\n' +
+                '• Año: ' + vehiculo.año + '\n\n' +
+                '🔧 *SERVICIO SELECCIONADO*\n' +
+                '• ' + servicio.nombre + '\n' +
+                '• Precio: $' + servicio.precio + '\n' +
+                '• Tiempo: ' + servicio.tiempo + ' minutos\n' +
+                '• Hora: ' + servicio.hora + '\n\n' +
+                '📅 Fecha: ' + new Date(vehiculo.fechaRegistro).toLocaleDateString();
+
+            try {
+                // Codificar el mensaje
+                const mensajeCodificado = encodeURIComponent(mensaje);
+
+                // Detectar si es dispositivo móvil
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                
+                if (isMobile) {
+                    // URL directa para WhatsApp móvil
+                    window.location.href = `whatsapp://send?phone=${numeroCliente}&text=${mensajeCodificado}`;
+                } else {
+                    // URL para WhatsApp Web
+                    window.location.href = `https://web.whatsapp.com/send?phone=${numeroCliente}&text=${mensajeCodificado}`;
+                }
+            } catch (error) {
+                alert('Error al abrir WhatsApp. Por favor, intente nuevamente.');
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

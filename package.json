@@ -1,0 +1,30 @@
+{
+  "name": "carcenter",
+  "version": "1.0.0",
+  "description": "Sistema de gestión para Car Center",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js",
+    "clean": "rm -rf node_modules package-lock.json"
+  },
+  "author": {
+    "name": "Felipe Ramirez",
+    "email": "felipejnoguera1978@gmail.com",
+    "url": "https://github.com/FelipeRamirez"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FelipeRamirez/carcenter.git"
+  },
+  "private": true,
+  "license": "MIT",
+  "dependencies": {
+    "express": "1.0.0",
+    "cors": "1.0.0",
+    "dotenv": "1.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.0.0"
+  }
+}

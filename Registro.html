@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es"></html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
+
+    <title>Nuevo Registro de usuario</title>
+    
+</head>
+    <body>
+        <div class="container">
+            <!-- Cabecera -->
+            <div class="cabecera">
+                <img src="Imagenes/logo sodimac.png" height="300px" width="300px">
+            </div>
+            <!-- Contenido -->
+            <div class="contenido">
+                <form id="registroForm" action="./Terceraplantilla.html" method="GET" onsubmit="return validarLogin()">
+                    <label for="documento">Registro de usuario</label>
+                    <input type="text" id="documento" placeholder="Numero de documento" required>
+                    <input type="text" id="nombres" placeholder="Nombres y Apellidos" required>
+                    <input type="text" placeholder="Correo electronico" required>
+                    <input type="password" id="contraseña" placeholder="Contraseña" required>
+                    <input type="password" id="confirmarContraseña" placeholder="Confirmar Contraseña" required>
+                    <input type="text" id="telefono" placeholder="Telefono" required>
+                    <button type="submit">Continuar</button>
+
+                </form>
+            </div>
+            <div class="container-img">
+            <div class="container">
+                <img src="Imagenes/logo.jpg" height="80px" width="300px">
+                    </div>
+        </div>
+        
+        <script>
+            function validarLogin() {
+                // Aquí puedes agregar validaciones adicionales si es necesario
+                const contraseña = document.getElementById('contraseña').value;
+                const confirmarContraseña = document.getElementById('confirmarContraseña').value;
+    
+                if (contraseña !== confirmarContraseña) {
+                    alert("Las contraseñas no coinciden.");
+                    return false; // Evita que el formulario se envíe
+                }
+    
+                return true; // Permite que el formulario se envíe
+            }
+        </script>
+        
+    </body>
+    </html>
+            
+
+            
+                
+

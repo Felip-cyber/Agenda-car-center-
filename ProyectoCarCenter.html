@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Agenda Car Center</title>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Cabecera -->
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" width="300px" height="100px" alt="Logo Sodimac">
+        </div>
+
+        <!-- Contenido -->
+        <div class="contenido">
+            <form id="loginForm" action="./Segundaplantilla.html" onsubmit="return validarLogin()">
+                <input type="text" id="usuario" placeholder="Usuario" required>
+                <input type="password" id="contraseña" placeholder="Contraseña" required>
+                <button type="submit" class="neumorphic-button">Iniciar Sesión</button>
+                <a href="HistorialServicios.html" class="neumorphic-button" style="text-decoration: none; display: inline-block; margin-top: 10px;">Consultar Historial</a>
+            </form>
+            
+            <a href="RecuperarContrasena.html" class="recuperar-link">¿Olvidó su contraseña?</a>
+            <a href="Registro.html" class="registro-link">Regístrese</a>
+        </div>
+
+        <div class="container-img">
+        <div class="container">
+        <img src="Imagenes/logo.jpg" height="80px" width="300px">
+            </div>
+    </div>
+    
+    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+    
+    <script>
+        function validarLogin() {
+            
+            // Aquí puedes agregar validaciones adicionales si es necesario
+            const contraseña = document.getElementById('contraseña').value;
+            const confirmarContraseña = document.getElementById('confirmarContraseña').value;
+            
+            
+            
+
+            if (contraseña !== confirmarContraseña) {
+                alert("Las contraseñas no coinciden.");
+                return false; // Evita que el formulario se envíe
+            }
+            
+
+            return true; // Permite que el formulario se envíe
+        }
+    </script>
+</body>
+</html>

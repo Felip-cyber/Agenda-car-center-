@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style/global.css">
+    <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Pago Confirmado</title>
+</head>
+<body>
+    <div class="container">
+        <div class="cabecera">
+            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+        </div>
+
+        <div class="contenido">
+            <div class="confirmation-box">
+                <i class="fas fa-check-circle" style="font-size: 4em; color: #28a745; margin-bottom: 20px;"></i>
+                <h2>¡Pago Realizado con Éxito!</h2>
+                <p>Su reserva ha sido confirmada y el pago procesado correctamente.</p>
+                
+                <div class="payment-info" id="paymentInfo">
+                    <!-- La información del pago se insertará aquí -->
+                </div>
+
+                <p>Recuerde llegar 15 minutos antes de la reserva.</p>
+
+                <div class="button-container">
+                    <button onclick="window.location.href='ProyectoCarCenter.html'" class="neumorphic-button">
+                        <i class="fas fa-home"></i> Volver al Inicio
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-img">
+            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        </div>
+    </div>
+
+    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        window.onload = function() {
+            const vehiculo = JSON.parse(localStorage.getItem('vehiculoActual'));
+            const servicio = JSON.parse(localStorage.getItem('servicioSeleccionado'));
+            
+            if (vehiculo && servicio) {
+                const paymentInfo = document.getElementById('paymentInfo');
+                paymentInfo.innerHTML = `
+                    <div class="details-section">
+                        <h3>Detalles de la Transacción</h3>
+                        <p><strong>Servicio:</strong> ${servicio.nombre}</p>
+                        <p><strong>Monto:</strong> $${servicio.precio}</p>
+                        <p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p>
+                        <p><strong>Hora:</strong> ${new Date().toLocaleTimeString()}</p>
+                        <p><strong>ID de Transacción:</strong> ${generateTransactionId()}</p>
+                    </div>
+                `;
+            }
+        };
+
+        function generateTransactionId() {
+            return 'TRX-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        }
+    </script>
+</body>
+</html>
