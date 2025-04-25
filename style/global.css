@@ -1,3 +1,11 @@
+/* Agregar variables CSS para consistencia */
+:root {
+    --primary-color: #ff0000;
+    --secondary-color: #161616;
+    --text-color: #333;
+    --background-color: #f2f0f6;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;

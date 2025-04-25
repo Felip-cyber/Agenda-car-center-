@@ -1,9 +1,9 @@
 {
   "verbose": true,
-  "watch": ["server"],
+  "watch": ["src/**/*"],
   "ext": "js,json",
-  "ignore": ["*.test.js", "node_modules/*", "client/*"],
-  "exec": "node server/index.js",
+  "ignore": ["*.test.js", "node_modules/**/*"],
+  "exec": "node src/app.js",
   "events": {
     "restart": "clear"
   },

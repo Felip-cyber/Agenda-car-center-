@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Car Center - Servicios de lavado y mantenimiento automotriz">
+    <meta name="keywords" content="lavado autos">
     <link rel="stylesheet" type="text/css" href="./style/global.css">
     <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
     <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
@@ -16,8 +18,6 @@
         <div class="cabecera">
             <img src="Imagenes/logo sodimac.png" width="300px" height="100px" alt="Logo Sodimac">
         </div>
-
-        <!-- Contenido -->
         <div class="contenido">
             <form id="loginForm" action="./Segundaplantilla.html" onsubmit="return validarLogin()">
                 <input type="text" id="usuario" placeholder="Usuario" required>
@@ -40,24 +40,5 @@
         <i class="fab fa-whatsapp"></i>
     </a>
     
-    <script>
-        function validarLogin() {
-            
-            // Aquí puedes agregar validaciones adicionales si es necesario
-            const contraseña = document.getElementById('contraseña').value;
-            const confirmarContraseña = document.getElementById('confirmarContraseña').value;
-            
-            
-            
-
-            if (contraseña !== confirmarContraseña) {
-                alert("Las contraseñas no coinciden.");
-                return false; // Evita que el formulario se envíe
-            }
-            
-
-            return true; // Permite que el formulario se envíe
-        }
-    </script>
+    
 </body>
-</html>

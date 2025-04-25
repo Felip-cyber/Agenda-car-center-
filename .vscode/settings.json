@@ -1,3 +1,17 @@
 {
-    "git.ignoreLimitWarning": true
+  "git.ignoreLimitWarning": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "workbench.editor.enablePreview": false,
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#e60012",
+    "statusBar.foreground": "#ffffff"
+  },
+  "git.ignoredRepositories": [],
+  "git.autofetch": true,
+  "git.defaultCloneDirectory": "/home/felipe/Projects"
 }

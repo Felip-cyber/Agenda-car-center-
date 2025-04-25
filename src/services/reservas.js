@@ -1,8 +1,9 @@
 import { StorageManager, STORAGE_KEYS } from '../data/storage.js';
 
+// Agregar validación y sanitización de datos
 export function validarPlaca(placa) {
     const regexPlaca = /^[A-Z]{3}\d{3}$/;
-    return regexPlaca.test(placa);
+    return regexPlaca.test(placa.toUpperCase());
 }
 
 export function guardarDatosCliente(datos) {

@@ -1,12 +1,15 @@
 {
-  "name": "carcenter",
+  "name": "agenda-car-center",
   "version": "1.0.0",
-  "description": "Sistema de gestión para Car Center",
-  "main": "server/index.js",
+  "description": "Sistema de gestión para lavado de autos",
+  "main": "src/app.js",
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js",
-    "clean": "rm -rf node_modules package-lock.json"
+    "start": "node src/app.js",
+    "dev": "nodemon --config nodemon.json",
+    "clean": "rm -rf node_modules package-lock.json && npm install",
+    "test-db": "node -e \"require('./config/database.js').testConnection()\"",
+    "validate-db": "node src/utils/validateDb.js",
+    "validate-user": "node src/utils/validateUser.js"
   },
   "author": {
     "name": "Felipe Ramirez",
@@ -19,12 +22,19 @@
   },
   "private": true,
   "license": "MIT",
+  "copyright": "© 2025 Felipe Ramirez. Todos los derechos reservados.",
   "dependencies": {
-    "express": "1.0.0",
-    "cors": "1.0.0",
-    "dotenv": "1.0.0"
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "mysql2": "^3.2.0"
   },
   "devDependencies": {
-    "nodemon": "1.0.0"
-  }
+    "nodemon": "^2.0.22"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/FelipeRamirez/carcenter/issues"
+  },
+  "homepage": "https://github.com/FelipeRamirez/carcenter#readme"
 }
