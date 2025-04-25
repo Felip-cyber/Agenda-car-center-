@@ -8,7 +8,7 @@
   "git.confirmSync": false,
   "workbench.editor.enablePreview": false,
   "workbench.colorCustomizations": {
-    "statusBar.background": "#e60012",
+    "statusBar.background": "#007ACC",
     "statusBar.foreground": "#ffffff"
   },
   "git.ignoredRepositories": [],
