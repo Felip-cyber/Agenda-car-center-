@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="./style/global.css">
     <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
-    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
-    <title>Septima Plantilla Polichado</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <title>Lavado con Polichado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
         body {
@@ -45,7 +43,6 @@
             width: 250px;
             height: auto;
             margin-left: 10px;
-    
         }
 
         .contenido {
@@ -56,30 +53,6 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-
-        .contenido input[type="text"],
-        .contenido input[type="password"] {
-            width: 85%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #eee;
-            font-size: 16px;
-            text-align: center;
-        }
-
-        .contenido button {
-            background-color: #ff0000;
-            color: white;
-            padding: 12px 15px;
-            border: none;
-            border-radius: 20px;
-            cursor: pointer;
-            width: 85%;
-            margin: 15px 0;
-            font-size: 16px;
         }
 
         .caracteristicas {
@@ -136,12 +109,29 @@
             border-radius: 0 0 10px 10px;
         }
 
-        .contenido a {
-            display: block;
-            color: #333;
-            text-decoration: none;
+        .neumorphic-button {
+            width: 200px;
+            padding: 10px 0;
             margin: 5px 0;
-            font-size: 20px; /* Tamaño de fuente más pequeño */
+            border-radius: 25px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .neumorphic-button:hover {
+            background-color: #e00000;
+            transform: translateY(1px);
+        }
+        
+        .neumorphic-button:active {
+            background-color: #cc0000;
         }
     </style>
 </head>
@@ -149,7 +139,7 @@
     <div class="container">
         <!-- Cabecera -->
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png"height="300px" width="300px" alt="300px">
+            <img src="./Imagenes/logo sodimac.png" height="100px" width="300px" alt="Logo Sodimac">
         </div>
 
         <!-- Contenido -->
@@ -166,16 +156,16 @@
                 </ul>
             </div>
     
-            <button onclick="window.location.href='./OctavaPlantillaCompleto.html'" class="neumorphic-button" style="background-color: #ff0000; color: white; padding: 12px 15px; border: none; border-radius: 20px; cursor: pointer; width: 85%; margin: 15px 0; font-size: 16px;">Continuar</button>
-
-            <button onclick="window.location.href='./SextaPlantillaEncerado.html'" class="neumorphic-button" style="background-color: #ff0000; color: white; padding: 12px 15px; border: none; border-radius: 20px; cursor: pointer; width: 85%; margin: 15px 0; font-size: 16px;">Regresar</button>
+            <button onclick="window.location.href='./Novenaplantillamediospago.html'" class="neumorphic-button">Continuar</button>
+            
+            <button onclick="window.location.href='./QuintaPlantillaRegistrodel Vehiculo.html'" class="neumorphic-button">Regresar</button>
         </div>
 
         <div class="footer">
-            <img src="Imagenes/polichado.jpg" alt="lavado">
+            <img src="./Imagenes/polichado.jpg" alt="Servicio de polichado">
         </div>
     </div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            
     <a href="https://wa.me/573113275086?text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center" 
        class="whatsapp-button" 
        target="_blank"

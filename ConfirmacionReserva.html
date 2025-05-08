@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
         </div>
 
         <div class="contenido">
@@ -23,14 +23,15 @@
                 <p>Su reserva ha sido confirmada y el servicio ha sido registrado correctamente.</p>
                 <p>Recibirá un mensaje de WhatsApp con los detalles de su reserva.</p>
                 <div class="button-container">
-                    <button onclick="window.location.href='MediosDePago.html'" class="neumorphic-button">Continuar al Pago</button>
-                    <button onclick="window.location.href='QuintaPlantillaRegistrodel Vehiculo.html'" class="neumorphic-button">Regresar</button>
+                    <button onclick="window.location.href='./MediosDePago.html'" class="neumorphic-button">Continuar al Pago</button>
+                    <button onclick="window.location.href='./QuintaPlantillaRegistrodel Vehiculo.html'" class="neumorphic-button">Regresar</button>
+                    <button onclick="enviarConfirmacionWhatsApp()" class="neumorphic-button">Enviar confirmación por WhatsApp</button>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        <div class="container-img">
+            <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo Car Center">
         </div>
     </div>
 
@@ -56,21 +57,31 @@
             const vehiculo = JSON.parse(localStorage.getItem('vehiculoActual'));
             const servicio = JSON.parse(localStorage.getItem('servicioSeleccionado'));
             if (vehiculo && servicio) {
-                mostrarDetalles(vehiculo);
+                mostrarDetalles(vehiculo, servicio);
                 guardarEnHistorial(vehiculo, servicio);
+            } else {
+                document.getElementById('detallesRegistro').innerHTML = `
+                    <p>No se encontraron datos del vehículo o servicio.</p>
+                `;
             }
         };
 
-        function mostrarDetalles(vehiculo) {
+        function mostrarDetalles(vehiculo, servicio) {
             const detalles = document.getElementById('detallesRegistro');
             detalles.innerHTML = `
                 <h3>Detalles del Vehículo:</h3>
-                <p><strong>Placa:</strong> ${vehiculo.placa}</p>
-                <p><strong>Marca:</strong> ${vehiculo.marca}</p>
-                <p><strong>Tipo:</strong> ${vehiculo.tipo}</p>
-                <p><strong>Año:</strong> ${vehiculo.año}</p>
-                <p><strong>WhatsApp:</strong> ${vehiculo.telefono}</p>
-                <p><strong>Fecha de Registro:</strong> ${new Date(vehiculo.fechaRegistro).toLocaleDateString()}</p>
+                <p><strong>Placa:</strong> ${vehiculo.placa || 'No disponible'}</p>
+                <p><strong>Marca:</strong> ${vehiculo.marca || 'No disponible'}</p>
+                <p><strong>Tipo:</strong> ${vehiculo.tipo || 'No disponible'}</p>
+                <p><strong>Año:</strong> ${vehiculo.año || 'No disponible'}</p>
+                <p><strong>WhatsApp:</strong> ${vehiculo.telefono || 'No disponible'}</p>
+                <p><strong>Fecha de Registro:</strong> ${vehiculo.fechaRegistro ? new Date(vehiculo.fechaRegistro).toLocaleDateString() : 'No disponible'}</p>
+                
+                <h3>Servicio Seleccionado:</h3>
+                <p><strong>Servicio:</strong> ${servicio.nombre || 'No disponible'}</p>
+                <p><strong>Precio:</strong> $${servicio.precio?.toLocaleString('es-CO') || 'No disponible'}</p>
+                <p><strong>Tiempo estimado:</strong> ${servicio.tiempo || 'No disponible'} minutos</p>
+                <p><strong>Hora:</strong> ${servicio.hora || 'No disponible'}</p>
             `;
         }
 
@@ -83,16 +94,12 @@
                 return;
             }
 
-            // Validar que exista el número de teléfono
             if (!vehiculo.telefono) {
                 alert('Error: No se encontró el número de WhatsApp del cliente');
                 return;
             }
 
-            // Formatear el número de teléfono (eliminar espacios y caracteres especiales)
             let numeroCliente = vehiculo.telefono.replace(/[^\d]/g, '');
-            
-            // Asegurar que tenga el prefijo de Colombia
             numeroCliente = numeroCliente.startsWith('57') ? numeroCliente : '57' + numeroCliente;
 
             const mensaje = 
@@ -104,24 +111,19 @@
                 '• Año: ' + vehiculo.año + '\n\n' +
                 '🔧 *SERVICIO SELECCIONADO*\n' +
                 '• ' + servicio.nombre + '\n' +
-                '• Precio: $' + servicio.precio + '\n' +
+                '• Precio: $' + servicio.precio.toLocaleString('es-CO') + '\n' +
                 '• Tiempo: ' + servicio.tiempo + ' minutos\n' +
                 '• Hora: ' + servicio.hora + '\n\n' +
                 '📅 Fecha: ' + new Date(vehiculo.fechaRegistro).toLocaleDateString();
 
             try {
-                // Codificar el mensaje
                 const mensajeCodificado = encodeURIComponent(mensaje);
-
-                // Detectar si es dispositivo móvil
                 const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 
                 if (isMobile) {
-                    // URL directa para WhatsApp móvil
                     window.location.href = `whatsapp://send?phone=${numeroCliente}&text=${mensajeCodificado}`;
                 } else {
-                    // URL para WhatsApp Web
-                    window.location.href = `https://web.whatsapp.com/send?phone=${numeroCliente}&text=${mensajeCodificado}`;
+                    window.open(`https://web.whatsapp.com/send?phone=${numeroCliente}&text=${mensajeCodificado}`, '_blank');
                 }
             } catch (error) {
                 alert('Error al abrir WhatsApp. Por favor, intente nuevamente.');

@@ -7,11 +7,61 @@
     <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Pago Confirmado</title>
+    <style>
+        /* Estilos adicionales para el comprobante de pago */
+        .payment-info {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .details-section {
+            margin-bottom: 15px;
+        }
+        
+        .details-section h3 {
+            color: #ff0000;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .transaction-id {
+            background: #eee;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        
+        /* Estilo para botones adicionales */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-buttons button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .action-buttons i {
+            font-size: 1.2em;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
         </div>
 
         <div class="contenido">
@@ -27,15 +77,24 @@
                 <p>Recuerde llegar 15 minutos antes de la reserva.</p>
 
                 <div class="button-container">
-                    <button onclick="window.location.href='ProyectoCarCenter.html'" class="neumorphic-button">
+                    <button onclick="window.location.href='./ProyectoCarCenter.html'" class="neumorphic-button">
                         <i class="fas fa-home"></i> Volver al Inicio
+                    </button>
+                </div>
+                
+                <div class="action-buttons">
+                    <button onclick="enviarConfirmacionEmail()" class="neumorphic-button">
+                        <i class="fas fa-envelope"></i> Recibir por Email
+                    </button>
+                    <button onclick="enviarConfirmacionWhatsApp()" class="neumorphic-button">
+                        <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
                     </button>
                 </div>
             </div>
         </div>
 
         <div class="container-img">
-            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+            <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo Car Center">
         </div>
     </div>
 
@@ -44,27 +103,116 @@
     </a>
 
     <script>
+        let transactionId = '';
+        
         window.onload = function() {
             const vehiculo = JSON.parse(localStorage.getItem('vehiculoActual'));
             const servicio = JSON.parse(localStorage.getItem('servicioSeleccionado'));
+            transactionId = generateTransactionId();
             
             if (vehiculo && servicio) {
                 const paymentInfo = document.getElementById('paymentInfo');
                 paymentInfo.innerHTML = `
                     <div class="details-section">
-                        <h3>Detalles de la Transacción</h3>
-                        <p><strong>Servicio:</strong> ${servicio.nombre}</p>
-                        <p><strong>Monto:</strong> $${servicio.precio}</p>
+                        <h3>Detalles del Vehículo</h3>
+                        <p><strong>Placa:</strong> ${vehiculo.placa || 'No disponible'}</p>
+                        <p><strong>Marca:</strong> ${vehiculo.marca || 'No disponible'}</p>
+                        <p><strong>Tipo:</strong> ${vehiculo.tipo || 'No disponible'}</p>
+                    </div>
+                    <div class="details-section">
+                        <h3>Detalles del Servicio</h3>
+                        <p><strong>Servicio:</strong> ${servicio.nombre || 'No disponible'}</p>
+                        <p><strong>Monto:</strong> $${(servicio.precio || 0).toLocaleString('es-CO')}</p>
                         <p><strong>Fecha:</strong> ${new Date().toLocaleDateString()}</p>
                         <p><strong>Hora:</strong> ${new Date().toLocaleTimeString()}</p>
-                        <p><strong>ID de Transacción:</strong> ${generateTransactionId()}</p>
+                    </div>
+                    <div class="details-section">
+                        <h3>Detalles de la Transacción</h3>
+                        <p><strong>ID de Transacción:</strong> <span class="transaction-id">${transactionId}</span></p>
+                        <p><strong>Estado:</strong> <span style="color: #28a745; font-weight: bold;">APROBADO</span></p>
+                    </div>
+                `;
+                
+                guardarEnHistorial(vehiculo, servicio);
+            } else {
+                const paymentInfo = document.getElementById('paymentInfo');
+                paymentInfo.innerHTML = `
+                    <div class="details-section">
+                        <p>No se encontraron detalles de la transacción.</p>
                     </div>
                 `;
             }
         };
 
+        function guardarEnHistorial(vehiculo, servicio) {
+            const historialKey = `historial_${vehiculo.placa}`;
+            const historialActual = JSON.parse(localStorage.getItem(historialKey) || '[]');
+            
+            historialActual.push({
+                fecha: new Date().toISOString(),
+                nombre: servicio.nombre,
+                precio: servicio.precio,
+                transaccionId: transactionId
+            });
+
+            localStorage.setItem(historialKey, JSON.stringify(historialActual));
+        }
+
         function generateTransactionId() {
-            return 'TRX-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+            const fecha = new Date();
+            const fechaParte = `${fecha.getFullYear()}${(fecha.getMonth()+1).toString().padStart(2,'0')}${fecha.getDate().toString().padStart(2,'0')}`;
+            const randomParte = Math.random().toString(36).substring(2, 8).toUpperCase();
+            return `TRX-${fechaParte}-${randomParte}`;
+        }
+        
+        function enviarConfirmacionEmail() {
+            alert('Se enviaría un correo con los detalles del pago. Esta función requeriría implementación de backend.');
+        }
+        
+        function enviarConfirmacionWhatsApp() {
+            const vehiculo = JSON.parse(localStorage.getItem('vehiculoActual'));
+            const servicio = JSON.parse(localStorage.getItem('servicioSeleccionado'));
+            
+            if (!vehiculo || !servicio) {
+                alert('Error: No se encontraron los datos del servicio');
+                return;
+            }
+
+            const mensaje = 
+                '💰 *COMPROBANTE DE PAGO - CAR CENTER*\n\n' +
+                '🚗 *Detalles del Vehículo*\n' +
+                '• Placa: ' + vehiculo.placa + '\n' +
+                '• Marca: ' + vehiculo.marca + '\n' +
+                '• Tipo: ' + vehiculo.tipo + '\n\n' +
+                '🔧 *Servicio*\n' +
+                '• ' + servicio.nombre + '\n' +
+                '• Monto: $' + servicio.precio.toLocaleString('es-CO') + '\n\n' +
+                '📝 *Detalles de la Transacción*\n' +
+                '• Fecha: ' + new Date().toLocaleDateString() + '\n' +
+                '• Hora: ' + new Date().toLocaleTimeString() + '\n' +
+                '• ID: ' + transactionId + '\n' +
+                '• Estado: ✅ APROBADO\n\n' +
+                '🏁 *¡Gracias por su preferencia!*';
+                
+            const mensajeCodificado = encodeURIComponent(mensaje);
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            
+            if (vehiculo.telefono) {
+                let telefono = vehiculo.telefono.replace(/\D/g,'');
+                if (!telefono.startsWith('57')) telefono = '57' + telefono;
+                
+                if (isMobile) {
+                    window.location.href = `whatsapp://send?phone=${telefono}&text=${mensajeCodificado}`;
+                } else {
+                    window.open(`https://web.whatsapp.com/send?phone=${telefono}&text=${mensajeCodificado}`, '_blank');
+                }
+            } else {
+                if (isMobile) {
+                    window.location.href = `whatsapp://send?phone=573113275086&text=${mensajeCodificado}`;
+                } else {
+                    window.open(`https://web.whatsapp.com/send?phone=573113275086&text=${mensajeCodificado}`, '_blank');
+                }
+            }
         }
     </script>
 </body>

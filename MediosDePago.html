@@ -110,7 +110,7 @@
 <body>
     <div class="container">
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
         </div>
 
         <div class="contenido">
@@ -138,23 +138,22 @@
                 </div>
 
                 <div id="paymentForm" class="payment-form">
-                    
                     <!-- El formulario se insertará aquí -->
                 </div>
 
                 <div class="button-container">
                     <button onclick="procesarPago()" class="neumorphic-button">Confirmar Pago</button>
-                    <button onclick="window.location.href='ConfirmacionReserva.html'" class="neumorphic-button">Regresar</button>
+                    <button onclick="window.location.href='./ConfirmacionReserva.html'" class="neumorphic-button">Regresar</button>
                 </div>
             </div>
         </div>
 
-        <div class="footer">
-            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        <div class="container-img"></div>
+            <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo Car Center">
         </div>
     </div>
 
-    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank">
+    <a href="https://wa.me/+573113275086" class="whatsapp-btn" target="_blank"></a>
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -235,7 +234,7 @@
                 return;
             }
             alert('¡Pago procesado exitosamente!');
-            window.location.href = 'ConfirmacionPago.html';
+            window.location.href = './ConfirmacionPago.html';
         }
     </script>
 </body>

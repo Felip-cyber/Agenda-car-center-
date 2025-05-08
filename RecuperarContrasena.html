@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Recuperación de contraseña para usuarios de Car Center">
     <link rel="stylesheet" type="text/css" href="./style/global.css">
     <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
     <title>Recuperar Contraseña</title>
@@ -10,11 +11,12 @@
 <body>
     <div class="container">
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" width="300px" height="100px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" width="300px" height="100px" alt="Logo Sodimac">
         </div>
 
         <div class="contenido">
-            <form id="recuperarForm" onsubmit="return enviarCodigo()">
+            <!-- Modificado para seguir la lógica del resto de formularios -->
+            <form id="recuperarForm" action="ProyectoCarCenter.html" method="GET" onsubmit="return validarRecuperacion()">
                 <h2>Recuperar Contraseña</h2>
                 <p>Seleccione el método para recibir su código de verificación:</p>
                 
@@ -29,13 +31,13 @@
                     <label for="email">Correo Electrónico</label>
                 </div>
 
-                <input type="text" id="contacto" placeholder="WhatsApp/Teléfono/Correo registrado" required>
+                <input type="text" id="contacto" name="contacto" placeholder="WhatsApp/Teléfono/Correo registrado" required>
                 <button type="submit" class="neumorphic-button">Enviar Código</button>
                 
                 <div id="codigo-form" style="display: none;">
-                    <input type="text" id="codigo" placeholder="Ingrese el código recibido">
-                    <input type="password" id="nueva-contraseña" placeholder="Nueva contraseña">
-                    <input type="password" id="confirmar-contraseña" placeholder="Confirmar contraseña">
+                    <input type="text" id="codigo" name="codigo" placeholder="Ingrese el código recibido" required>
+                    <input type="password" id="nueva-contraseña" name="nuevaContrasena" placeholder="Nueva contraseña" required>
+                    <input type="password" id="confirmar-contraseña" placeholder="Confirmar contraseña" required>
                     <button type="button" onclick="verificarCodigo()" class="neumorphic-button">Actualizar Contraseña</button>
                 </div>
             </form>
@@ -43,46 +45,138 @@
 
         <div class="container-img">
             <div class="container">
-                <img src="Imagenes/logo.jpg" height="80px" width="300px">
+                <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo Car Center">
             </div>
         </div>
     </div>
 
     <script>
-        function enviarCodigo() {
-            const metodo = document.querySelector('input[name="metodo"]:checked').value;
+        /**
+         * Primera etapa: validación del método de recuperación y contacto
+         * @returns {boolean} - Indica si el formulario debe enviarse o no
+         */
+        function validarRecuperacion() {
+            const metodoElement = document.querySelector('input[name="metodo"]:checked');
             const contacto = document.getElementById('contacto').value;
             
-            let mensaje = '';
-            switch(metodo) {
-                case 'whatsapp':
-                    mensaje = `Se enviará un código por WhatsApp al número: ${contacto}`;
-                    break;
-                case 'sms':
-                    mensaje = `Se enviará un código por SMS al número: ${contacto}`;
-                    break;
-                case 'email':
-                    mensaje = `Se enviará un código al correo: ${contacto}`;
-                    break;
+            // Validar que se haya seleccionado un método
+            if (!metodoElement) {
+                alert('Por favor seleccione un método de recuperación');
+                return false;
             }
             
+            const metodo = metodoElement.value;
+            
+            // Validar formato según el método seleccionado
+            if (metodo === 'email' && !validarEmail(contacto)) {
+                alert('Por favor ingrese un correo electrónico válido');
+                return false;
+            } else if ((metodo === 'whatsapp' || metodo === 'sms') && !validarTelefono(contacto)) {
+                alert('Por favor ingrese un número de teléfono válido');
+                return false;
+            }
+            
+            // Envío real del código de verificación
+            const formData = new FormData();
+            formData.append('metodo', metodo);
+            formData.append('contacto', contacto);
+            
+            fetch('/enviar-codigo', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Código enviado correctamente. Por favor revise su ' + metodo);
+                    // Mostrar formulario para ingresar código
+                    document.getElementById('codigo-form').style.display = 'block';
+                } else {
+                    alert('Error al enviar el código. Intente nuevamente.');
+                }
+            })
+            .catch(error => {
+                alert('Error de conexión. Por favor intente más tarde.');
+                console.error('Error:', error);
+            });
+            
             alert(mensaje);
+            
+            // Mostrar el formulario para ingresar el código
             document.getElementById('codigo-form').style.display = 'block';
+            
+            // Prevenir el envío del formulario en esta etapa
             return false;
         }
 
+        /**
+         * Segunda etapa: verificación del código y actualización de contraseña
+         */
         function verificarCodigo() {
             const codigo = document.getElementById('codigo').value;
             const nuevaContraseña = document.getElementById('nueva-contraseña').value;
             const confirmarContraseña = document.getElementById('confirmar-contraseña').value;
 
+            // Validar que se haya introducido un código
+            if (!codigo || codigo.trim() === '') {
+                alert('Por favor ingrese el código de verificación recibido');
+                return;
+            }
+
+            // Validar la contraseña
+            if (nuevaContraseña.length < 6) {
+                alert('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+
+            // Validar que las contraseñas coincidan
             if (nuevaContraseña !== confirmarContraseña) {
                 alert('Las contraseñas no coinciden');
                 return;
             }
 
-            alert('Contraseña actualizada exitosamente');
-            window.location.href = 'ProyectoCarCenter.html';
+            // Enviar datos al servidor para verificar y actualizar
+            const formData = new FormData();
+            formData.append('codigo', codigo);
+            formData.append('nuevaContrasena', nuevaContraseña);
+
+            fetch('/actualizar-contrasena', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Contraseña actualizada exitosamente');
+                    window.location.href = 'ProyectoCarCenter.html';
+                } else {
+                    alert('Error al actualizar la contraseña: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error de conexión. Por favor intente más tarde.');
+                console.error('Error:', error);
+            });
+        }
+        
+        /**
+         * Valida formato de email
+         * @param {string} email - Email a validar
+         * @returns {boolean} - Indica si el formato es válido
+         */
+        function validarEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+        
+        /**
+         * Valida formato de teléfono
+         * @param {string} telefono - Número a validar
+         * @returns {boolean} - Indica si el formato es válido
+         */
+        function validarTelefono(telefono) {
+            const regex = /^[0-9]{10}$/;
+            return regex.test(telefono);
         }
     </script>
 </body>

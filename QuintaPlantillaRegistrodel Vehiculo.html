@@ -3,28 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Registro de vehículo para servicios de lavado en Car Center">
+    <meta name="keywords" content="registro vehículo, car center, sodimac, servicio automotriz">
     <link rel="stylesheet" type="text/css" href="./style/global.css">
     <link rel="stylesheet" type="text/css" href="./style/proyectoCarCenter.css">
-    <link rel="stylesheet" type="text/css" href="./style/carcenter.js">
-    <title>Quinta Plantilla Registro del Vehiculo</title>
+    <title>Registro del Vehículo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <style>
+        /* Estilos para indicadores de validación */
+        .input-valid {
+            border-color: #66cc66 !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2366cc66' viewBox='0 0 16 16'%3E%3Cpath d='M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .input-invalid {
+            border-color: #ff6666 !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23ff6666' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        /* Animación suave para transiciones */
+        select, input {
+            transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+        }
+
+        select:focus, input:focus {
+            box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+            border-color: #ff0000;
+        }
+        
+        /* Tooltip informativo para placas */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            margin-left: 5px;
+            cursor: help;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Para lectores de pantalla */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <!-- Cabecera -->
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" height="100px" width="300px" alt="Logo Sodimac">
         </div>
         <!-- Contenido -->
         <div class="contenido">
             <form action="./ConfirmacionReserva.html" method="get" id="vehiculoForm">
-                <label for="Lavado">Ingresar datos del vehículo</label>
+                <label for="placa">Ingresar datos del vehículo <span class="tooltip">ⓘ<span class="tooltip-text">Formato de placa: 3 letras seguidas de 3 números (Ej: ABC123)</span></span></label>
                 
-                <input type="text" id="placa" name="placa" placeholder="Placa (ABC123)" pattern="[A-Za-z]{3}[0-9]{3}" required>
+                <input type="text" id="placa" name="placa" 
+                       placeholder="Placa (ABC123)" 
+                       pattern="[A-Za-z]{3}[0-9]{3}" 
+                       aria-describedby="placa-format"
+                       required>
+                <div id="placa-format" class="sr-only">Formato de placa: 3 letras seguidas de 3 números</div>
                 
-                <select name="marca" id="marca" required>
+                <select name="marca" id="marca" required aria-label="Marca del vehículo">
                     <option value="">Seleccione la marca</option>
                     <option value="toyota">Toyota</option>
                     <option value="chevrolet">Chevrolet</option>
@@ -52,10 +127,9 @@
                     <option value="tesla">Tesla</option>
                     <option value="volvo">Volvo</option>
                     <option value="jaguar">Jaguar</option>
-
                 </select>
 
-                <select name="tipo" id="tipo" required>
+                <select name="tipo" id="tipo" required aria-label="Tipo de vehículo">
                     <option value="">Seleccione tipo de vehículo</option>
                     <option value="sedan">Sedán</option>
                     <option value="hatchback">Hatchback</option>
@@ -67,7 +141,7 @@
                     <option value="convertible">Convertible</option>
                 </select>
 
-                <select name="año" id="año" required>
+                <select name="año" id="año" required aria-label="Año del vehículo">
                     <option value="">Seleccione el año</option>
                 </select>
 
@@ -78,6 +152,7 @@
                        pattern="[0-9]{10}"
                        maxlength="10"
                        title="Ingrese un número de WhatsApp válido de 10 dígitos"
+                       aria-describedby="telefono-help"
                        class="form-control"
                        style="width: 85%;
                               padding: 8px;
@@ -87,16 +162,17 @@
                               background-color: #eee;
                               text-align: center;"
                        required>
+                <div id="telefono-help" class="sr-only">Ingrese un número de WhatsApp válido de 10 dígitos</div>
 
                 <div class="button-container">
                     <button type="submit" class="neumorphic-button">Continuar</button>
-                    <button type="button" onclick="window.location.href='ServiciosDisponibles.html'" class="neumorphic-button">Regresar</button>
+                    <button type="button" onclick="window.location.href='./ServiciosDisponibles.html'" class="neumorphic-button">Regresar</button>
                 </div>
             </form>
         </div>
 
-        <div class="footer">
-            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+        <div class="container-img">
+            <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo Car Center">
         </div>
     </div>
 
@@ -107,7 +183,39 @@
 
     <!-- Scripts -->
     <script>
-        // Generar años desde 2024 hasta 1990
+        // Función para el debounce (optimización de rendimiento)
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Función para validación visual inmediata
+        function validarCampo(elemento, condicion, mensaje) {
+            if(elemento.value) {
+                if(condicion(elemento.value)) {
+                    elemento.classList.remove('input-invalid');
+                    elemento.classList.add('input-valid');
+                    elemento.setCustomValidity('');
+                } else {
+                    elemento.classList.remove('input-valid');
+                    elemento.classList.add('input-invalid');
+                    elemento.setCustomValidity(mensaje);
+                }
+            } else {
+                elemento.classList.remove('input-valid');
+                elemento.classList.remove('input-invalid');
+                elemento.setCustomValidity('');
+            }
+        }
+
+        // Generar años desde el actual hasta 1990
         const selectAño = document.getElementById('año');
         const añoActual = new Date().getFullYear();
         
@@ -118,29 +226,101 @@
             selectAño.appendChild(option);
         }
 
-        // Validar placa
-        document.getElementById('placa').addEventListener('input', function(e) {
+        // Validar placa con feedback visual mejorado
+        document.getElementById('placa').addEventListener('input', debounce(function(e) {
             this.value = this.value.toUpperCase();
-        });
+            validarCampo(
+                this,
+                value => /^[A-Z]{3}[0-9]{3}$/.test(value),
+                'Formato inválido. Debe ser 3 letras seguidas de 3 números.'
+            );
+        }, 300));
 
-        // Validar número de WhatsApp
-        document.getElementById('telefono').addEventListener('input', function(e) {
+        // Validar número de WhatsApp con feedback visual
+        document.getElementById('telefono').addEventListener('input', debounce(function(e) {
             this.value = this.value.replace(/[^0-9]/g, '');
             if (this.value.length > 10) {
                 this.value = this.value.slice(0, 10);
             }
+            validarCampo(
+                this,
+                value => value.length === 10,
+                'Debe ingresar exactamente 10 dígitos'
+            );
+        }, 300));
+
+        // Guardar datos temporales del formulario
+        const formInputs = document.querySelectorAll('#vehiculoForm input, #vehiculoForm select');
+        formInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const formData = {};
+                formInputs.forEach(el => {
+                    if(el.value) formData[el.id] = el.value;
+                });
+                sessionStorage.setItem('vehiculoFormTempData', JSON.stringify(formData));
+            });
         });
 
-        // Validar formulario
+        // Recuperar datos guardados al cargar la página
+        window.addEventListener('load', function() {
+            const savedData = sessionStorage.getItem('vehiculoFormTempData');
+            if(savedData) {
+                const formData = JSON.parse(savedData);
+                Object.keys(formData).forEach(key => {
+                    const input = document.getElementById(key);
+                    if(input) input.value = formData[key];
+                });
+            }
+        });
+
+        // Interacciones inteligentes entre campos
+        document.getElementById('marca').addEventListener('change', function() {
+            const marcaSeleccionada = this.value;
+            const selectTipo = document.getElementById('tipo');
+            
+            // Si se selecciona una marca de lujo, sugerir tipos específicos
+            if(['bmw', 'mercedes', 'audi', 'porsche', 'jaguar'].includes(marcaSeleccionada)) {
+                for(let i=0; i < selectTipo.options.length; i++) {
+                    if(['sedan', 'suv', 'deportivo'].includes(selectTipo.options[i].value)) {
+                        selectTipo.selectedIndex = i;
+                        break;
+                    }
+                }
+            } else if(['toyota', 'nissan', 'chevrolet', 'ford'].includes(marcaSeleccionada)) {
+                for(let i=0; i < selectTipo.options.length; i++) {
+                    if(['pickup', 'suv'].includes(selectTipo.options[i].value)) {
+                        selectTipo.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        });
+
+        // Validar formulario antes de enviar
         document.getElementById('vehiculoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const telefono = document.getElementById('telefono').value;
-            if (telefono.length !== 10) {
-                alert('Por favor, ingrese un número de WhatsApp válido de 10 dígitos');
-                return false;
+            // Validar todos los campos antes de enviar
+            let formValid = true;
+            
+            // Validar placa
+            const placa = document.getElementById('placa');
+            if(!/^[A-Z]{3}[0-9]{3}$/.test(placa.value)) {
+                placa.classList.add('input-invalid');
+                formValid = false;
             }
             
+            // Validar teléfono
+            const telefono = document.getElementById('telefono').value;
+            if (telefono.length !== 10) {
+                document.getElementById('telefono').classList.add('input-invalid');
+                alert('Por favor, ingrese un número de WhatsApp válido de 10 dígitos');
+                formValid = false;
+            }
+            
+            if (!formValid) return false;
+            
+            // Si todo está correcto, guardar datos y enviar
             const vehiculo = {
                 placa: document.getElementById('placa').value,
                 marca: document.getElementById('marca').value,
@@ -151,6 +331,8 @@
             };
 
             localStorage.setItem('vehiculoActual', JSON.stringify(vehiculo));
+            // Limpiar datos temporales al enviar correctamente
+            sessionStorage.removeItem('vehiculoFormTempData');
             this.submit();
         });
     </script>

@@ -11,7 +11,7 @@
 <body>
     <div class="container">
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
         </div>
 
         <div class="contenido">
@@ -25,11 +25,11 @@
                 <!-- Aquí se mostrarán los resultados -->
             </div>
 
-            <button onclick="window.location.href='ProyectoCarCenter.html'" class="neumorphic-button">Regresar</button>
+            <button onclick="window.location.href='./ProyectoCarCenter.html'" class="neumorphic-button">Regresar</button>
         </div>
 
         <div class="footer">
-            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+            <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
         </div>
     </div>
 
@@ -41,16 +41,32 @@
         function buscarHistorial() {
             const placa = document.getElementById('buscarPlaca').value.toUpperCase();
             const historial = obtenerHistorialLocal(placa);
-            mostrarHistorial(historial);
+            mostrarHistorial(historial, placa);
         }
 
         function obtenerHistorialLocal(placa) {
+            // Intentar obtener del localStorage
             const historialKey = `historial_${placa}`;
-            const historial = JSON.parse(localStorage.getItem(historialKey) || '[]');
+            let historial = JSON.parse(localStorage.getItem(historialKey) || '[]');
+            
+            // Si no hay datos, usar datos de ejemplo para demostración
+            if (historial.length === 0) {
+                // Datos de ejemplo solo si no hay historial real
+                const ejemplos = [
+                    { fecha: new Date(2024, 4, 1).toISOString(), nombre: 'Lavado básico', precio: 30000 },
+                    { fecha: new Date(2024, 3, 15).toISOString(), nombre: 'Polichado', precio: 80000 },
+                    { fecha: new Date(2024, 2, 20).toISOString(), nombre: 'Lavado premium', precio: 50000 }
+                ];
+                
+                // Guardar ejemplos en localStorage solo para fines de demostración
+                localStorage.setItem(historialKey, JSON.stringify(ejemplos));
+                return ejemplos;
+            }
+            
             return historial;
         }
 
-        function mostrarHistorial(historial) {
+        function mostrarHistorial(historial, placa) {
             const contenedor = document.getElementById('historialResultados');
             contenedor.innerHTML = '';
 
@@ -58,6 +74,8 @@
                 contenedor.innerHTML = '<p>No se encontraron servicios para esta placa.</p>';
                 return;
             }
+            
+            contenedor.innerHTML = `<h3>Historial para la placa: ${placa}</h3>`;
 
             const tabla = document.createElement('table');
             tabla.innerHTML = `
@@ -73,10 +91,20 @@
                 fila.innerHTML = `
                     <td>${new Date(servicio.fecha).toLocaleDateString()}</td>
                     <td>${servicio.nombre}</td>
-                    <td>$${servicio.precio}</td>
+                    <td>$${servicio.precio.toLocaleString('es-CO')}</td>
                 `;
                 tabla.appendChild(fila);
             });
+
+            // Calcular total
+            const total = historial.reduce((sum, item) => sum + item.precio, 0);
+            const filaTotales = document.createElement('tr');
+            filaTotales.style.fontWeight = 'bold';
+            filaTotales.innerHTML = `
+                <td colspan="2" style="text-align: right">Total:</td>
+                <td>$${total.toLocaleString('es-CO')}</td>
+            `;
+            tabla.appendChild(filaTotales);
 
             contenedor.appendChild(tabla);
         }

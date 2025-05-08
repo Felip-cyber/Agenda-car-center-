@@ -30,10 +30,16 @@
             margin-top: 10px;
             font-style: italic;
         }
+        /* Ajustes para centrado del contenedor de fecha y hora */
         .hora-grupo {
             text-align: center;
             margin: 20px auto;
             max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Añadido para centrado vertical */
+            width: 100%; /* Asegura que ocupa el ancho completo disponible */
         }
 
         .fecha-hora-input {
@@ -47,26 +53,89 @@
             font-size: 16px;
             text-align: center;
             background-color: #fff;
+            box-sizing: border-box; /* Asegura que padding no afecte el ancho */
         }
 
-        .fecha-hora-input:focus {
-            border-color: #ff0000;
-            outline: none;
-            box-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+        /* Mejora para garantizar que el selector de fecha tenga el mismo estilo en todos los navegadores */
+        input[type="datetime-local"] {
+            -webkit-appearance: none; /* Para Safari */
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23333' d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
+        /* Contenedor principal - ajustamos para garantizar centrado horizontal global */
+        #serviciosForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Para que el select también esté centrado con las mismas dimensiones */
+        select.service-select {
+            margin: 10px auto;
+            padding: 12px;
+            width: 100%;
+            max-width: 280px; /* Mismo ancho que el campo de fecha */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+
+        /* Mejora para el contenedor de detalles del servicio */
+        #detallesServicio {
+            margin: 15px auto;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            max-width: 90%;
+        }
+        
+        /* Para asegurar el centrado de botones sin cambiar su estructura */
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin: 20px auto;
+        }
+        
+        /* Restaurar el ancho de los botones neumórficos */
+        .neumorphic-button {
+            width: 200px; /* Ancho fijo como en la imagen */
+            padding: 10px 0; /* Padding vertical */
+            margin: 5px 0; /* Espacio entre botones */
+            border-radius: 25px; /* Bordes muy redondeados como en la imagen */
+            background-color: #ff0000; /* Rojo brillante */
+            color: white; /* Texto blanco */
+            border: none; /* Sin borde */
             font-weight: bold;
-            color: #333;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Sombra sutil */
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .neumorphic-button:hover {
+            background-color: #e00000; /* Rojo un poco más oscuro al pasar el mouse */
+            transform: translateY(1px); /* Ligero movimiento hacia abajo */
+        }
+        
+        .neumorphic-button:active {
+            background-color: #cc0000; /* Aún más oscuro al hacer clic */
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="cabecera">
-            <img src="Imagenes/logo sodimac.png" height="300px" width="300px" alt="Logo Sodimac">
+            <img src="./Imagenes/logo sodimac.png" width="300px" height="100px" alt="Logo Sodimac">
         </div>
 
         <div class="contenido">
@@ -232,6 +301,11 @@
                 </div>
             </form>
             <script>
+                // Configurar fecha mínima como hoy
+                const hoy = new Date();
+                const fechaMin = hoy.toISOString().split('T')[0] + 'T08:00';
+                document.getElementById('fechaHora').min = fechaMin;
+                
                 function actualizarDetallesServicio() {
                     const select = document.getElementById('tipoLavado');
                     const option = select.options[select.selectedIndex];
@@ -275,10 +349,12 @@
                     const statusDiv = document.getElementById('disponibilidadStatus');
 
                     if (fechaHora && tipoLavado) {
-                        const [fecha, hora] = fechaHora.split(" ");
+                        const [fecha, hora] = fechaHora.split("T");
+                        const horaFormateada = hora.substring(0, 5);
+                        
                         const reservaOcupada = reservasExistentes.some(reserva => 
                             reserva.fecha === fecha && 
-                            reserva.hora === hora && 
+                            reserva.hora === horaFormateada && 
                             reserva.tipoLavado === tipoLavado
                         );
 
@@ -323,7 +399,7 @@
             </script>
         </div>
         <div class="container-img">
-            <img src="Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
+            <img src="./Imagenes/logo.jpg" height="80px" width="300px" alt="Logo">
         </div>
     </div>
     <a href="https://wa.me/573113275086?text=Hola,%20quisiera%20información%20sobre%20los%20servicios%20de%20Car%20Center" 
@@ -334,3 +410,4 @@
     </a>
 </body>
 </html>
+``` 

@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../../Agenda-car-center"
+		},
+		{
+			"name": "Agenda-car-center-",
+			"path": "../Agenda-car-center-"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Agenda-car-center-"
+	}
+}
